@@ -29,6 +29,11 @@
 			path = "UIKit Basics";
 			sourceTree = "<group>";
 		};
+		48F9DE832E4CDDBB007C2623 /* Assets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +52,7 @@
 			children = (
 				48F9DE652E478427007C2623 /* UIKit Basics */,
 				48F9DE642E478427007C2623 /* Products */,
+				48F9DE832E4CDDBB007C2623 /* Assets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -75,6 +81,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				48F9DE652E478427007C2623 /* UIKit Basics */,
+				48F9DE832E4CDDBB007C2623 /* Assets */,
 			);
 			name = "UIKit Basics";
 			packageProductDependencies = (
