@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    
+     
     lazy var label: GradientLabel = {
         let label = GradientLabel()
         label.text = "UIKit"
@@ -33,10 +33,10 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
         
-//        navigationController?.navigationBar.isHidden = true
-        navigationItem.title = "UIKit"
-        navigationController?.navigationBar.prefersLargeTitles = true
-//        setGradientNavigationTitle2()
+        navigationController?.navigationBar.isHidden = true
+//        navigationItem.title = "UIKit"
+//        navigationController?.navigationBar.prefersLargeTitles = true
+        setGradientNavigationTitle2()
         
         setupViews()
     }
