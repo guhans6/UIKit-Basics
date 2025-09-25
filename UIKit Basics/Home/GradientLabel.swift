@@ -33,8 +33,8 @@ class GradientLabel: UILabel {
     private func setupGradient() {
         // Default gradient colors
         setGradientColors(nil)
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
         layer.addSublayer(gradientLayer)
     }
     
@@ -45,6 +45,10 @@ class GradientLabel: UILabel {
             UIColor.systemPurple,
             UIColor.systemBlue
         ]).map { $0.cgColor }
+    }
+    
+    func setGradientLocations(_ locations: [NSNumber]?) {
+        gradientLayer.locations = locations
     }
     
     func showGradient() {
@@ -109,12 +113,14 @@ class GradientLabel: UILabel {
         endPointAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         gradientLayer.add(endPointAnimation, forKey: "endPointShift")
     }
+
 }
 
-/// A drop-in gradient "label" implemented as a UIView.
+
+/// An animated gradient "label" implemented as a UIView wrapper.
 /// - Starts with black text (baseLabel).
 /// - On showGradient() it crossfades to a gradient-rendered text (gradientView).
-/// - You can provide custom gradient colors (defaults used if nil).
+/// - Provide custom gradient colors (defaults used if nil).
 class GradientLabelView: UIView {
     
     private let normalLabel = UILabel()
@@ -135,7 +141,7 @@ class GradientLabelView: UIView {
     private func setup() {
         normalLabel.textAlignment = .center
         normalLabel.textColor = .black
-//        normalLabel.adjustsFontForContentSizeCategory = true
+        normalLabel.adjustsFontForContentSizeCategory = true
         
         gradientLabel.alpha = 0 // hidden initially
         
@@ -180,26 +186,29 @@ class GradientLabelView: UIView {
         gradientLabel.setGradientColors(colors)
     }
     
+    func setGradientLocations(_ locations: [NSNumber]?) {
+        gradientLabel.setGradientLocations(locations)
+    }
+    
     @objc private func toggleGradient() {
-        UIView.animate(withDuration: 1,
+        UIView.animate(withDuration: 1.5,
                        delay: 0.1,
                        usingSpringWithDamping: 0.85,
                        initialSpringVelocity: 0.5,
                        options: [.curveEaseInOut],
                        animations: {
-            // fade cross
+            
             self.normalLabel.alpha = self.normalLabel.alpha == 1 ? 0 : 1
             self.gradientLabel.alpha = self.gradientLabel.alpha == 1 ? 0 : 1
             
-            // slight scale up during transition
             self.transform = CGAffineTransform(scaleX: 1.08, y: 1.08)
             
             self.delegate?.gradientLabelDidTap()
             
             // animate gradient motion
             self.gradientLabel.animateGradient()
+            
         }, completion: { _ in
-            // revert scale smoothly back to identity
             UIView.animate(withDuration: 0.6) {
                 self.transform = .identity
             }
@@ -208,7 +217,6 @@ class GradientLabelView: UIView {
     }
 
 }
-
 
 // Notes:
 // UIView.transition(with: self, duration: 0.75, options: .curveEaseOut) { previously used for transition
